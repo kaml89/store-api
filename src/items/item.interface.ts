@@ -1,4 +1,6 @@
-export interface BaseItem {
+import { Document } from "mongoose";
+
+export interface IBaseItem extends Document {
   name: string;
   price: number;
   description: string;
@@ -7,6 +9,6 @@ export interface BaseItem {
   imgUrl: string;
 }
 
-export interface Item extends BaseItem {
-  id: string;
+export interface IItem extends IBaseItem {
+  _id: string;
 }
