@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 
-export interface IBaseItem extends Document {
+export interface IBaseItem {
   name: string;
   price: number;
   description: string;
@@ -9,6 +9,6 @@ export interface IBaseItem extends Document {
   imgUrl: string;
 }
 
-export interface IItem extends IBaseItem {
+export interface IItem extends IBaseItem, Document {
   _id: string;
 }

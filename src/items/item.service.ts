@@ -12,9 +12,9 @@ export const get = async (id: string): Promise<IItem | null> => {
   return item;
 };
 
-export const create = async (item: IBaseItem) => {
-  const newItem: IBaseItem = new Item(item);
-  const createdItem = await newItem.save();
+export const create = async (item: IBaseItem): Promise<IItem> => {
+  const newItem: IItem = new Item(item);
+  const createdItem: IItem = await newItem.save();
 
   return createdItem;
 };

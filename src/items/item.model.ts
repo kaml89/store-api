@@ -18,6 +18,6 @@ ItemSchema.set("toJSON", {
   },
 });
 
-const Item = model<IBaseItem>("Item", ItemSchema);
+const Item = model<IItem>("Item", ItemSchema);
 
 export default Item;
