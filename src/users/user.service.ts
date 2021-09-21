@@ -18,3 +18,16 @@ export const create = async (user: IBaseUser): Promise<IUser> => {
 
   return createdUser;
 };
+
+export const update = async (
+  id: string,
+  userUpdate: IBaseUser
+): Promise<IUser | null> => {
+  const updatedUser = await User.findByIdAndUpdate(id, userUpdate);
+  return updatedUser;
+};
+
+export const remove = async (id: string): Promise<IUser | null> => {
+  const deletedUser = User.findByIdAndDelete(id);
+  return deletedUser;
+};
