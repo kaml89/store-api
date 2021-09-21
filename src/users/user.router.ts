@@ -40,3 +40,33 @@ usersRouter.post("/", async (req: Request, res: Response) => {
     res.status(500).send(e.message);
   }
 });
+
+usersRouter.put("/:id", async (req: Request, res: Response) => {
+  try {
+    const id: string = req.params.id;
+    const userUpdate: IBaseUser = req.body;
+
+    const existingUser: IUser | null = await UserService.get(id);
+
+    if (existingUser) {
+      const updatedUser = await UserService.update(id, userUpdate);
+      res.status(200).json(updatedUser);
+    }
+
+    const newUser: IUser = await UserService.create(userUpdate);
+    res.status(201).json(newUser);
+  } catch (e: any) {
+    res.status(500).send(e.message);
+  }
+});
+
+usersRouter.delete("/:id", async (req: Request, res: Response) => {
+  try {
+    const id: string = req.params.id;
+    const deletedItem = UserService.remove(id);
+
+    res.status(204).json(deletedItem);
+  } catch (e: any) {
+    res.status(500).send(e.message);
+  }
+});
