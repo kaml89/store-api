@@ -15,6 +15,6 @@ UserSchema.set("toJSON", {
   },
 });
 
-const User = mongoose.model<IBaseUser>("User", UserSchema);
+const User = mongoose.model<IUser>("User", UserSchema);
 
 export default User;

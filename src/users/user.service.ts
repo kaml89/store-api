@@ -12,8 +12,9 @@ export const get = async (id: string): Promise<IUser | null> => {
   return user;
 };
 
-export const create = async (user: IBaseUser) => {
-  const newUser: IBaseUser = new User(user);
-  const createdUser = await newUser.save();
+export const create = async (user: IBaseUser): Promise<IUser> => {
+  const newUser: IUser = new User(user);
+  const createdUser: IUser = await newUser.save();
+
   return createdUser;
 };
