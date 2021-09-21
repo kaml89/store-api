@@ -24,7 +24,7 @@ usersRouter.get("/:id", async (req: Request, res: Response) => {
       return res.status(200).send(user);
     }
 
-    res.status(404).send("item not found");
+    res.status(404).send("user not found");
   } catch (e: any) {
     res.status(500).send(e.message);
   }
@@ -63,9 +63,9 @@ usersRouter.put("/:id", async (req: Request, res: Response) => {
 usersRouter.delete("/:id", async (req: Request, res: Response) => {
   try {
     const id: string = req.params.id;
-    const deletedItem = UserService.remove(id);
+    const deletedUser = UserService.remove(id);
 
-    res.status(204).json(deletedItem);
+    res.status(204).json(deletedUser);
   } catch (e: any) {
     res.status(500).send(e.message);
   }
