@@ -19,5 +19,15 @@ export const create = async (item: IBaseItem): Promise<IItem> => {
   return createdItem;
 };
 
-export const update = async () => {};
-export const remove = async () => {};
+export const update = async (
+  id: string,
+  itemUpdate: IBaseItem
+): Promise<IItem | null> => {
+  const updatedItem = await Item.findByIdAndUpdate(id, itemUpdate);
+  return updatedItem;
+};
+
+export const remove = async (id: string): Promise<IItem | null> => {
+  const deletedItem = await Item.findByIdAndDelete(id);
+  return deletedItem;
+};
