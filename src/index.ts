@@ -5,6 +5,10 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 
 import { usersRouter } from "./users/user.router";
+import { itemsRouter } from "./items/item.router";
+
+import { errorHandler } from "./middleware/error.middleware";
+import { notFoundHandler } from "./middleware/not-found.middleware";
 
 dotenv.config();
 
@@ -21,6 +25,10 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/users", usersRouter);
+app.use("/items", itemsRouter);
+
+app.use(errorHandler);
+app.use(notFoundHandler);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
