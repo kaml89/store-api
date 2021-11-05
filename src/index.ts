@@ -17,7 +17,12 @@ if (!process.env.PORT) {
 }
 
 const PORT: number = parseInt(process.env.PORT as string, 10);
-const MONGODB_URI = process.env.MONGODB_URI as string;
+const MONGODB_URI = (
+  process.env.NODE_ENV === "test"
+    ? process.env.TEST_MONGODB_URI
+    : process.env.MONGODB_URI
+) as string;
+// const MONGODB_URI = config.MONGODB_URI as string;
 const app = express();
 
 app.use(helmet());
@@ -43,3 +48,5 @@ mongoose.connect(MONGODB_URI).then(
     console.log("Failed to connect to database");
   }
 );
+
+export default app;
