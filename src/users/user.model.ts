@@ -1,10 +1,15 @@
 import { IBaseUser, IUser } from "./user.interface";
 import mongoose, { Schema, Model } from "mongoose";
+import bcrypt from "bcrypt";
 
 const UserSchema: Schema = new Schema({
   name: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
+});
+
+UserSchema.pre("save", async function () {
+  this.password = await bcrypt.hash(this.password, 10);
 });
 
 UserSchema.set("toJSON", {
