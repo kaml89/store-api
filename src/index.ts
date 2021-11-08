@@ -4,8 +4,8 @@ import cors from "cors";
 import helmet from "helmet";
 import mongoose from "mongoose";
 
-import { usersRouter } from "./users/user.router";
-import { itemsRouter } from "./items/item.router";
+import { usersRouter } from "./users/user.controller";
+import { itemsRouter } from "./items/item.controller";
 
 import { errorHandler } from "./middleware/error.middleware";
 import { notFoundHandler } from "./middleware/not-found.middleware";
