@@ -34,7 +34,6 @@ itemsRouter.post("/", async (req: Request, res: Response) => {
   try {
     const item: IBaseItem = req.body;
     const newItem = await ItemService.create(item);
-
     res.status(201).json(newItem);
   } catch (e: any) {
     res.status(500).send(e.message);
@@ -63,9 +62,12 @@ itemsRouter.put("/:id", async (req: Request, res: Response) => {
 itemsRouter.delete("/:id", async (req: Request, res: Response) => {
   try {
     const id: string = req.params.id;
-    const deletedItem = ItemService.remove(id);
-
-    res.status(204).json(deletedItem);
+    const deletedItem = await ItemService.remove(id);
+    if (deletedItem) {
+      res.status(202).json(deletedItem);
+    } else {
+      res.status(404).send("Resource doesn't exist");
+    }
   } catch (e: any) {
     res.status(500).send(e.message);
   }
