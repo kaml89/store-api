@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import * as UserService from "./user.service";
 import { IBaseUser, IUser } from "./user.interface";
+import { checkSchema } from "express-validator";
+import { validate, registrationSchema } from "../middleware/validator";
 
 export const usersRouter = express.Router();
 
@@ -30,16 +32,20 @@ usersRouter.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-usersRouter.post("/", async (req: Request, res: Response) => {
-  try {
-    const user: IBaseUser = req.body;
-    const newUser = await UserService.create(user);
+usersRouter.post(
+  "/",
+  validate(checkSchema(registrationSchema)),
+  async (req: Request, res: Response) => {
+    try {
+      const user: IBaseUser = req.body;
+      const newUser = await UserService.create(user);
 
-    res.status(201).json(newUser);
-  } catch (e: any) {
-    res.status(500).send(e.message);
+      res.status(201).json(newUser);
+    } catch (e: any) {
+      res.status(500).send(e.message);
+    }
   }
-});
+);
 
 usersRouter.put("/:id", async (req: Request, res: Response) => {
   try {
