@@ -1,8 +1,10 @@
 import express, { Request, Response } from "express";
 import * as UserService from "./user.service";
 import { IBaseUser, IUser } from "./user.interface";
-import { checkSchema } from "express-validator";
-import { validate, registrationSchema } from "../middleware/validator";
+import {
+  validate,
+  registrationSchema,
+} from "../middleware/validator.middleware";
 
 export const usersRouter = express.Router();
 
@@ -34,7 +36,7 @@ usersRouter.get("/:id", async (req: Request, res: Response) => {
 
 usersRouter.post(
   "/",
-  validate(checkSchema(registrationSchema)),
+  validate({ body: registrationSchema }),
   async (req: Request, res: Response) => {
     try {
       const user: IBaseUser = req.body;
