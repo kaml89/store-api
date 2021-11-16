@@ -7,7 +7,12 @@ export const getAll = async (): Promise<IUser[]> => {
   return users;
 };
 
-export const get = async (id: string): Promise<IUser | null> => {
+export const getByEmail = async (email: string): Promise<IUser | null> => {
+  const user: IUser | null = await User.findOne({ email: email });
+  return user;
+};
+
+export const getById = async (id: string): Promise<IUser | null> => {
   const user: IUser | null = await User.findById(id);
   return user;
 };
