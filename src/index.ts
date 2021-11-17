@@ -4,11 +4,13 @@ import cors from "cors";
 import helmet from "helmet";
 import mongoose from "mongoose";
 
-import { usersRouter } from "./users/user.controller";
-import { itemsRouter } from "./items/item.controller";
+import { usersRouter } from "./users/user.router";
+import { itemsRouter } from "./items/item.router";
+import { authRouter } from "./auth/auth.router";
 
 import { errorHandler } from "./middleware/error.middleware";
 import { notFoundHandler } from "./middleware/not-found.middleware";
+import { tokenExtractor } from "./middleware/auth.middleware";
 
 dotenv.config();
 
@@ -28,9 +30,11 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+app.use(tokenExtractor);
 
 app.use("/users", usersRouter);
 app.use("/items", itemsRouter);
+app.use("/", authRouter);
 
 app.use(errorHandler);
 app.use(notFoundHandler);

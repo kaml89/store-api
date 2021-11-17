@@ -8,12 +8,8 @@ import {
   registrationSchema,
 } from "../middleware/validator.middleware";
 
-export const authRouter = express.Router();
-
-authRouter.post(
-  "/signup",
-  validate({ body: registrationSchema }),
-  async (req: Request, res: Response) => {
+export default {
+  signup: async (req: Request, res: Response) => {
     try {
       const { email, password, name } = req.body;
       const existingUser: IUser | null = await UserService.getByEmail(email);
@@ -41,32 +37,32 @@ authRouter.post(
     } catch (e: any) {
       res.status(500).send(e.message);
     }
-  }
-);
+  },
 
-authRouter.post("/login", async (req: Request, res: Response) => {
-  try {
-    const { email, password } = req.body;
-    const user: IUser | null = await UserService.getByEmail(email);
-    if (!user) {
-      res.status(401).json({ message: "Invalid email" });
+  login: async (req: Request, res: Response) => {
+    try {
+      const { email, password } = req.body;
+      const user: IUser | null = await UserService.getByEmail(email);
+      if (!user) {
+        res.status(401).json({ message: "Invalid email" });
+      }
+
+      const isPasswordCorrect = await bcrypt.compare(password, user!.password);
+
+      if (!isPasswordCorrect) {
+        res.status(401).json({ message: "Invalid Password" });
+      }
+
+      const token = createToken(user!);
+
+      const responseObject = {
+        token,
+        user,
+      };
+
+      res.status(200).json(responseObject);
+    } catch (e: any) {
+      res.status(500).send(e.message);
     }
-
-    const isPasswordCorrect = await bcrypt.compare(password, user!.password);
-
-    if (!isPasswordCorrect) {
-      res.status(401).json({ message: "Invalid Password" });
-    }
-
-    const token = createToken(user!);
-
-    const responseObject = {
-      token,
-      user,
-    };
-
-    res.status(200).json(responseObject);
-  } catch (e: any) {
-    res.status(500).send(e.message);
-  }
-});
+  },
+};
