@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test jest --verbose --runInBand",
-    "dev": "NODE_ENV=development ts-node-dev --respawn --pretty --transpile-only src/index.ts"
+    "dev": "NODE_ENV=development ts-node-dev --respawn --pretty --transpile-only src/index.ts DEBUG=dev"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
+    "debug": "^4.3.2",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-json-validator-middleware": "^2.2.1",
