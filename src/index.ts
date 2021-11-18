@@ -40,7 +40,7 @@ app.use(errorHandler);
 app.use(notFoundHandler);
 
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+  console.log(`Listening on PORT ${PORT} in ${process.env.NODE_ENV} mode`);
 });
 
 mongoose.connect(MONGODB_URI).then(
