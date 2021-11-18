@@ -1,20 +1,19 @@
-import express, { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { IItem, IBaseItem } from "./item.interface";
 import * as ItemService from "./item.service";
-import { requireAuth } from "../middleware/auth.middleware";
 
 export default {
-  getAllItems: async (req: Request, res: Response) => {
+  getAllItems: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const items: Array<IItem> = await ItemService.getAll();
 
       res.status(200).send(items);
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    } catch (err: any) {
+      next(err);
     }
   },
 
-  getItemById: async (req: Request, res: Response) => {
+  getItemById: async (req: Request, res: Response, next: NextFunction) => {
     const id: string = req.params.id;
 
     try {
@@ -25,22 +24,22 @@ export default {
       }
 
       res.status(404).send("item not found");
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    } catch (err: any) {
+      next(err);
     }
   },
 
-  createItem: async (req: Request, res: Response) => {
+  createItem: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const item: IBaseItem = req.body;
       const newItem = await ItemService.create(item);
       res.status(201).json(newItem);
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    } catch (err: any) {
+      next(err);
     }
   },
 
-  updateItem: async (req: Request, res: Response) => {
+  updateItem: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id: string = req.params.id;
       const itemUpdate: IBaseItem = req.body;
@@ -54,12 +53,12 @@ export default {
 
       const newItem: IItem = await ItemService.create(itemUpdate);
       res.status(201).json(newItem);
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    } catch (err: any) {
+      next(err);
     }
   },
 
-  deleteItem: async (req: Request, res: Response) => {
+  deleteItem: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id: string = req.params.id;
       const deletedItem = await ItemService.remove(id);
@@ -68,8 +67,8 @@ export default {
       } else {
         res.status(404).send("Resource doesn't exist");
       }
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    } catch (err: any) {
+      next(err);
     }
   },
 };

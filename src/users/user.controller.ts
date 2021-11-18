@@ -1,19 +1,19 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import * as UserService from "./user.service";
 import { IBaseUser, IUser } from "./user.interface";
 
 export default {
-  getAllUsers: async (req: Request, res: Response) => {
+  getAllUsers: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const users: Array<IUser> = await UserService.getAll();
 
       res.status(200).send(users);
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    } catch (err: any) {
+      next(err);
     }
   },
 
-  getUserById: async (req: Request, res: Response) => {
+  getUserById: async (req: Request, res: Response, next: NextFunction) => {
     const id: string = req.params.id;
 
     try {
@@ -24,23 +24,23 @@ export default {
       }
 
       res.status(404).send("user not found");
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    } catch (err: any) {
+      next(err);
     }
   },
 
-  createUser: async (req: Request, res: Response) => {
+  createUser: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user: IBaseUser = req.body;
       const newUser = await UserService.create(user);
 
       res.status(201).json(newUser);
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    } catch (err: any) {
+      next(err);
     }
   },
 
-  updateUser: async (req: Request, res: Response) => {
+  updateUser: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id: string = req.params.id;
       const userUpdate: IBaseUser = req.body;
@@ -54,19 +54,19 @@ export default {
 
       const newUser: IUser = await UserService.create(userUpdate);
       res.status(201).json(newUser);
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    } catch (err: any) {
+      next(err);
     }
   },
 
-  deleteUser: async (req: Request, res: Response) => {
+  deleteUser: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id: string = req.params.id;
       const deletedUser = UserService.remove(id);
 
       res.status(204).json(deletedUser);
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    } catch (err: any) {
+      next(err);
     }
   },
 };
