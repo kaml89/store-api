@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import * as UserService from "../users/user.service";
 import { IBaseUser, IUser } from "../users/user.interface";
 import bcrypt from "bcrypt";
@@ -7,9 +7,14 @@ import {
   validate,
   registrationSchema,
 } from "../middleware/validator.middleware";
+import { nextTick } from "process";
 
 export default {
-  signup: async (req: Request, res: Response) => {
+  signup: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     try {
       const { email, password, name } = req.body;
       const existingUser: IUser | null = await UserService.getByEmail(email);
@@ -34,12 +39,16 @@ export default {
         message: "User succesfully created",
         user: userInfo,
       });
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    } catch (err: any) {
+      next(err);
     }
   },
 
-  login: async (req: Request, res: Response) => {
+  login: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     try {
       const { email, password } = req.body;
       const user: IUser | null = await UserService.getByEmail(email);
@@ -61,8 +70,8 @@ export default {
       };
 
       res.status(200).json(responseObject);
-    } catch (e: any) {
-      res.status(500).send(e.message);
+    } catch (err: any) {
+      next(err);
     }
   },
 };

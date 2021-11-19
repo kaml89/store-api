@@ -3,17 +3,25 @@ import { IItem, IBaseItem } from "./item.interface";
 import * as ItemService from "./item.service";
 
 export default {
-  getAllItems: async (req: Request, res: Response, next: NextFunction) => {
+  getAllItems: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     try {
       const items: Array<IItem> = await ItemService.getAll();
-
+      console.log(req.user);
       res.status(200).send(items);
     } catch (err: any) {
       next(err);
     }
   },
 
-  getItemById: async (req: Request, res: Response, next: NextFunction) => {
+  getItemById: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     const id: string = req.params.id;
 
     try {
@@ -29,7 +37,11 @@ export default {
     }
   },
 
-  createItem: async (req: Request, res: Response, next: NextFunction) => {
+  createItem: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     try {
       const item: IBaseItem = req.body;
       const newItem = await ItemService.create(item);
@@ -39,7 +51,11 @@ export default {
     }
   },
 
-  updateItem: async (req: Request, res: Response, next: NextFunction) => {
+  updateItem: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     try {
       const id: string = req.params.id;
       const itemUpdate: IBaseItem = req.body;
@@ -58,7 +74,11 @@ export default {
     }
   },
 
-  deleteItem: async (req: Request, res: Response, next: NextFunction) => {
+  deleteItem: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     try {
       const id: string = req.params.id;
       const deletedItem = await ItemService.remove(id);

@@ -3,7 +3,11 @@ import * as UserService from "./user.service";
 import { IBaseUser, IUser } from "./user.interface";
 
 export default {
-  getAllUsers: async (req: Request, res: Response, next: NextFunction) => {
+  getAllUsers: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     try {
       const users: Array<IUser> = await UserService.getAll();
 
@@ -13,7 +17,11 @@ export default {
     }
   },
 
-  getUserById: async (req: Request, res: Response, next: NextFunction) => {
+  getUserById: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     const id: string = req.params.id;
 
     try {
@@ -29,7 +37,11 @@ export default {
     }
   },
 
-  createUser: async (req: Request, res: Response, next: NextFunction) => {
+  createUser: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     try {
       const user: IBaseUser = req.body;
       const newUser = await UserService.create(user);
@@ -40,7 +52,11 @@ export default {
     }
   },
 
-  updateUser: async (req: Request, res: Response, next: NextFunction) => {
+  updateUser: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     try {
       const id: string = req.params.id;
       const userUpdate: IBaseUser = req.body;
@@ -59,7 +75,11 @@ export default {
     }
   },
 
-  deleteUser: async (req: Request, res: Response, next: NextFunction) => {
+  deleteUser: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
     try {
       const id: string = req.params.id;
       const deletedUser = UserService.remove(id);
