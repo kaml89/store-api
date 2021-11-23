@@ -1,12 +1,18 @@
 import { IBaseUser, IUser } from "./user.interface";
 import mongoose, { Schema, Model } from "mongoose";
 import bcrypt from "bcrypt";
+import Role from "../common/roles.enum";
 
 const UserSchema: Schema = new Schema({
   name: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  role: { type: String, required: true, default: "user" },
+  roles: {
+    type: String,
+    required: true,
+    enum: ["guest", "user", "admin"],
+    default: "guest",
+  },
 });
 
 UserSchema.pre("save", async function () {

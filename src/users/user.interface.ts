@@ -1,4 +1,5 @@
 import { Document } from "mongoose";
+import Role from "../common/roles.enum";
 
 export interface IBaseUser {
   name: string;
@@ -8,4 +9,5 @@ export interface IBaseUser {
 
 export interface IUser extends IBaseUser, Document {
   _id: string;
+  role: Role;
 }
