@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test jest --verbose --runInBand",
-    "dev": "NODE_ENV=development ts-node-dev --respawn --pretty --transpile-only src/index.ts DEBUG=dev"
+    "dev": "NODE_ENV=development ts-node-dev --respawn --pretty --transpile-only src/index.ts DEBUG=dev",
+    "start": "node src/index.ts"
   },
   "author": "",
   "license": "ISC",
