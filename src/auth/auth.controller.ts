@@ -16,7 +16,7 @@ export default {
     next: NextFunction
   ): Promise<Response | void> => {
     try {
-      const { email, password, name } = req.body;
+      const { email, password, name, role } = req.body;
       const existingUser: IUser | null = await UserService.getByEmail(email);
       if (existingUser) {
         res.status(400).json({ message: "Email already exists" });
@@ -25,6 +25,7 @@ export default {
         name: name,
         email: email,
         password: password,
+        role: role,
       };
 
       const savedUser: IUser = await UserService.create(newUser);
@@ -33,6 +34,7 @@ export default {
         name: savedUser.name,
         email: savedUser.email,
         id: savedUser.id,
+        role: savedUser.role,
       };
 
       res.status(200).json({

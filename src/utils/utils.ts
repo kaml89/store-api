@@ -6,6 +6,7 @@ export const createToken = (user: IUser) => {
     {
       id: user.id,
       email: user.email,
+      role: user.role,
     },
     process.env.SECRET,
     { algorithm: "HS256", expiresIn: "30d" }

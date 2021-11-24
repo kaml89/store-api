@@ -5,9 +5,9 @@ export interface IBaseUser {
   name: string;
   password: string;
   email: string;
+  role: Role;
 }
 
 export interface IUser extends IBaseUser, Document {
   _id: string;
-  role: Role;
 }

@@ -4,6 +4,7 @@ import jwtDecode from "jwt-decode";
 import * as dotenv from "dotenv";
 import * as UserService from "../users/user.service";
 import { IUser } from "../users/user.interface";
+import Role from "../common/roles.enum";
 
 dotenv.config();
 
@@ -25,7 +26,7 @@ export const requireAuth = jwt({
   algorithms: ["HS256"],
 });
 
-export const checkRoles = (roles: Array<string>) => {
+export const checkRoles = (roles: Array<Role>) => {
   return async (
     req: Request,
     res: Response,
@@ -35,8 +36,8 @@ export const checkRoles = (roles: Array<string>) => {
     const user: IUser | null = await UserService.getById(id);
     if (!user) {
       res.status(401).send("Unauthorized user");
-    }
-    if (roles.indexOf(req.user.role) > -1) {
+    } else if (roles.indexOf(user.role) > -1) {
+      console.log(user.role);
       return next();
     } else {
       res.status(401).send("Unauthorized user");
