@@ -1,14 +1,13 @@
 {
   "name": "store-api",
   "version": "1.0.0",
-  "type": "module",
   "description": "",
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "scripts": {
     "test": "NODE_ENV=test jest --verbose --runInBand",
     "dev": "NODE_ENV=development ts-node-dev --respawn --pretty --transpile-only src/index.ts DEBUG=dev",
-    "start": "tsc & node .",
-    "build": "tsc --project ./"
+    "start": "node build/index.js",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
