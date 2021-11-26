@@ -19,7 +19,7 @@ export default {
       const { email, password, name, role } = req.body;
       const existingUser: IUser | null = await UserService.getByEmail(email);
       if (existingUser) {
-        res.status(400).json({ message: "Email already exists" });
+        return res.status(400).json({ message: "Email already exists" });
       }
       const newUser: IBaseUser = {
         name: name,
@@ -55,13 +55,13 @@ export default {
       const { email, password } = req.body;
       const user: IUser | null = await UserService.getByEmail(email);
       if (!user) {
-        res.status(401).json({ message: "Invalid email" });
+        return res.status(401).json({ message: "Invalid email" });
       }
 
       const isPasswordCorrect = await bcrypt.compare(password, user!.password);
 
       if (!isPasswordCorrect) {
-        res.status(401).json({ message: "Invalid Password" });
+        return res.status(401).json({ message: "Invalid Password" });
       }
 
       const token = createToken(user!);

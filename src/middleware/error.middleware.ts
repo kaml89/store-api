@@ -9,18 +9,18 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   if (error.name === "UnauthorizedError") {
-    res.status(401).send("Invalid token");
+    return res.status(401).send("Invalid token");
   }
 
   const isValidationError = error instanceof ValidationError;
   if (isValidationError) {
-    res.status(400).json({
+    return res.status(400).json({
       errors: error.validationErrors,
     });
   }
 
   if (error.name === "ValidationError") {
-    res.status(400).json(error);
+    return res.status(400).json(error);
   }
 
   const status = error.statusCode || error.status || 500;
