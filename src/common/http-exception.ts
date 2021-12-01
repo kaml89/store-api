@@ -1,6 +1,5 @@
 export class ApplicationError extends Error {
-  statusCode?: number;
-  status?: number;
+  statusCode: number;
   message: string;
   error: string | null;
   constructor(
@@ -9,10 +8,13 @@ export class ApplicationError extends Error {
     error?: string | null
   ) {
     super(message);
+    Object.setPrototypeOf(this, ApplicationError.prototype);
 
     this.statusCode = statusCode || 500;
     this.message = message;
     this.error = error || null;
+
+    Error.captureStackTrace(this);
   }
 }
 
