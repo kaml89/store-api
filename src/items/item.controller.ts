@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { IItem, IBaseItem } from "./item.interface";
 import * as ItemService from "./item.service";
+import { ApplicationError } from "../common/http-exception";
 
 export default {
   getAllItems: async (
@@ -10,10 +11,9 @@ export default {
   ): Promise<Response | void> => {
     try {
       const items: Array<IItem> = await ItemService.getAll();
-      console.log(req.user);
       res.status(200).send(items);
-    } catch (err: any) {
-      next(err);
+    } catch (error) {
+      next(error);
     }
   },
 
@@ -27,13 +27,13 @@ export default {
     try {
       const item: IItem | null = await ItemService.get(id);
 
-      if (item) {
-        return res.status(200).send(item);
+      if (!item) {
+        throw new ApplicationError(404, "item not found");
+        //res.status(404).send("item not found");
       }
-
-      res.status(404).send("item not found");
-    } catch (err: any) {
-      next(err);
+      return res.status(200).send(item);
+    } catch (error) {
+      next(error);
     }
   },
 
@@ -46,8 +46,8 @@ export default {
       const item: IBaseItem = req.body;
       const newItem = await ItemService.create(item);
       res.status(201).json(newItem);
-    } catch (err: any) {
-      next(err);
+    } catch (error) {
+      next(error);
     }
   },
 
@@ -69,8 +69,8 @@ export default {
 
       const newItem: IItem = await ItemService.create(itemUpdate);
       res.status(201).json(newItem);
-    } catch (err: any) {
-      next(err);
+    } catch (error) {
+      next(error);
     }
   },
 
@@ -87,8 +87,8 @@ export default {
       } else {
         res.status(404).send("Resource doesn't exist");
       }
-    } catch (err: any) {
-      next(err);
+    } catch (error) {
+      next(error);
     }
   },
 };

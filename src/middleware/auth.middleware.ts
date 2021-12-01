@@ -37,7 +37,6 @@ export const checkRoles = (roles: Array<Role>) => {
     if (!user) {
       res.status(401).send("Unauthorized user");
     } else if (roles.indexOf(user.role) > -1) {
-      console.log(user.role);
       return next();
     } else {
       res.status(401).send("Unauthorized user");
