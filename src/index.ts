@@ -34,7 +34,7 @@ app.use(tokenExtractor);
 
 app.use("/users", usersRouter);
 app.use("/items", itemsRouter);
-app.use("/", authRouter);
+app.use("/auth", authRouter);
 app.use("*", notFoundHandler);
 
 app.use(errorHandler);
