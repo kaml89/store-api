@@ -73,7 +73,7 @@ exports.default = {
                 case 1:
                     existingUser = _b.sent();
                     if (existingUser) {
-                        res.status(400).json({ message: "Email already exists" });
+                        return [2 /*return*/, res.status(400).json({ message: "Email already exists" })];
                     }
                     newUser = {
                         name: name_1,
@@ -114,13 +114,13 @@ exports.default = {
                 case 1:
                     user = _b.sent();
                     if (!user) {
-                        res.status(401).json({ message: "Invalid email" });
+                        return [2 /*return*/, res.status(401).json({ message: "Invalid email" })];
                     }
                     return [4 /*yield*/, bcrypt_1.default.compare(password, user.password)];
                 case 2:
                     isPasswordCorrect = _b.sent();
                     if (!isPasswordCorrect) {
-                        res.status(401).json({ message: "Invalid Password" });
+                        return [2 /*return*/, res.status(401).json({ message: "Invalid Password" })];
                     }
                     token = (0, utils_1.createToken)(user);
                     responseObject = {

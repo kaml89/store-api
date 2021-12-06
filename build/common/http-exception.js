@@ -21,9 +21,11 @@ var ApplicationError = /** @class */ (function (_super) {
     function ApplicationError(statusCode, message, error) {
         if (message === void 0) { message = "an error occurred"; }
         var _this = _super.call(this, message) || this;
+        Object.setPrototypeOf(_this, ApplicationError.prototype);
         _this.statusCode = statusCode || 500;
         _this.message = message;
         _this.error = error || null;
+        Error.captureStackTrace(_this);
         return _this;
     }
     return ApplicationError;

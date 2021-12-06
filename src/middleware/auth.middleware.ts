@@ -16,7 +16,7 @@ export const tokenExtractor = (
   const token = req.get("authorization");
   if (token) {
     req.user = jwtDecode(token.substring(7));
-    return next();
+    //return next();
   }
   return next();
 };

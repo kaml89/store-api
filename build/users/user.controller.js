@@ -56,9 +56,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var UserService = __importStar(require("./user.service"));
+var http_exception_1 = require("../common/http-exception");
 exports.default = {
     getAllUsers: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var users, err_1;
+        var users, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -69,15 +70,15 @@ exports.default = {
                     res.status(200).send(users);
                     return [3 /*break*/, 3];
                 case 2:
-                    err_1 = _a.sent();
-                    next(err_1);
+                    error_1 = _a.sent();
+                    next(error_1);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
         });
     }); },
     getUserById: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var id, user, err_2;
+        var id, user, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -88,21 +89,21 @@ exports.default = {
                     return [4 /*yield*/, UserService.getById(id)];
                 case 2:
                     user = _a.sent();
-                    if (user) {
-                        return [2 /*return*/, res.status(200).send(user)];
+                    if (!user) {
+                        throw new http_exception_1.ApplicationError(404, "user not found");
+                        //res.status(404).send("user not found");
                     }
-                    res.status(404).send("user not found");
-                    return [3 /*break*/, 4];
+                    return [2 /*return*/, res.status(200).send(user)];
                 case 3:
-                    err_2 = _a.sent();
-                    next(err_2);
+                    error_2 = _a.sent();
+                    next(error_2);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
         });
     }); },
     createUser: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var user, newUser, err_3;
+        var user, newUser, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -114,40 +115,37 @@ exports.default = {
                     res.status(201).json(newUser);
                     return [3 /*break*/, 3];
                 case 2:
-                    err_3 = _a.sent();
-                    next(err_3);
+                    error_3 = _a.sent();
+                    next(error_3);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
         });
     }); },
     updateUser: function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-        var id, userUpdate, existingUser, updatedUser, newUser, err_4;
+        var id, userUpdate, existingUser, updatedUser, error_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 5, , 6]);
+                    _a.trys.push([0, 3, , 4]);
                     id = req.params.id;
                     userUpdate = req.body;
                     return [4 /*yield*/, UserService.getById(id)];
                 case 1:
                     existingUser = _a.sent();
-                    if (!existingUser) return [3 /*break*/, 3];
+                    if (!existingUser) {
+                        throw new http_exception_1.ApplicationError(404, "User not found");
+                    }
                     return [4 /*yield*/, UserService.update(id, userUpdate)];
                 case 2:
                     updatedUser = _a.sent();
                     res.status(200).json(updatedUser);
-                    _a.label = 3;
-                case 3: return [4 /*yield*/, UserService.create(userUpdate)];
-                case 4:
-                    newUser = _a.sent();
-                    res.status(201).json(newUser);
-                    return [3 /*break*/, 6];
-                case 5:
-                    err_4 = _a.sent();
-                    next(err_4);
-                    return [3 /*break*/, 6];
-                case 6: return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_4 = _a.sent();
+                    next(error_4);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     }); },
@@ -159,8 +157,8 @@ exports.default = {
                 deletedUser = UserService.remove(id);
                 res.status(204).json(deletedUser);
             }
-            catch (err) {
-                next(err);
+            catch (error) {
+                next(error);
             }
             return [2 /*return*/];
         });

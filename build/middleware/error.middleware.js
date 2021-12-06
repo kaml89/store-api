@@ -1,26 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorHandler = void 0;
+var http_exception_1 = require("../common/http-exception");
 var express_json_validator_middleware_1 = require("express-json-validator-middleware");
 var errorHandler = function (error, req, res, next) {
     if (error.name === "UnauthorizedError") {
-        res.status(401).send("Invalid token");
+        return res.status(401).json(error);
     }
-    var isValidationError = error instanceof express_json_validator_middleware_1.ValidationError;
-    if (isValidationError) {
-        res.status(400).json({
+    if (error instanceof express_json_validator_middleware_1.ValidationError) {
+        return res.status(400).json({
             errors: error.validationErrors,
         });
     }
     if (error.name === "ValidationError") {
-        res.status(400).json(error);
+        return res.status(400).json(error.message);
     }
-    if (error.name === "UnauthorizedError") {
-        res.status(403).json(error);
+    if (error instanceof http_exception_1.ApplicationError) {
+        console.error(error);
+        return res.status(error.statusCode).send(error.message);
     }
-    var status = error.statusCode || error.status || 500;
     console.error(error);
-    res.status(status).send(error);
+    res.status(500).send(error);
 };
 exports.errorHandler = errorHandler;
 //# sourceMappingURL=error.middleware.js.map

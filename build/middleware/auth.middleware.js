@@ -68,7 +68,7 @@ var tokenExtractor = function (req, res, next) {
     var token = req.get("authorization");
     if (token) {
         req.user = (0, jwt_decode_1.default)(token.substring(7));
-        return next();
+        //return next();
     }
     return next();
 };
@@ -91,7 +91,6 @@ var checkRoles = function (roles) {
                         res.status(401).send("Unauthorized user");
                     }
                     else if (roles.indexOf(user.role) > -1) {
-                        console.log(user.role);
                         return [2 /*return*/, next()];
                     }
                     else {

@@ -49,7 +49,7 @@ app.use(express_1.default.json());
 app.use(auth_middleware_1.tokenExtractor);
 app.use("/users", user_router_1.usersRouter);
 app.use("/items", item_router_1.itemsRouter);
-app.use("/", auth_router_1.authRouter);
+app.use("/auth", auth_router_1.authRouter);
 app.use("*", not_found_middleware_1.notFoundHandler);
 app.use(error_middleware_1.errorHandler);
 app.use(not_found_middleware_1.notFoundHandler);
