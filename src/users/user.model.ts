@@ -11,7 +11,7 @@ const UserSchema: Schema = new Schema({
     type: String,
     required: true,
     enum: ["guest", "user", "admin"],
-    default: "guest",
+    default: "user",
   },
 });
 
