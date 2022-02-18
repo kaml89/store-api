@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import Role from "../common/roles.enum";
 
 const UserSchema: Schema = new Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true, unique: false },
   password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   role: {

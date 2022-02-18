@@ -64,7 +64,7 @@ export default {
 
       if (existingItem) {
         const updatedItem = await ItemService.update(id, itemUpdate);
-        res.status(200).json(updatedItem);
+        return res.status(200).json(updatedItem);
       }
 
       const newItem: IItem = await ItemService.create(itemUpdate);
