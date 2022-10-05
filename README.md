@@ -1,3 +1,3 @@
 # store-api
 
-Simple REST API written in NodeJS, Express and MongoDB.
+Simple REST API created in NodeJS, Express and MongoDB.
